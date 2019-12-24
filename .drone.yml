@@ -5,8 +5,7 @@ steps:
   - name: initial_notification
     image: plugins/slack
     settings:
-      webhook: https://hooks.slack.com/services/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
-      channel: project-snipsnap
+      webhook: https://hooks.slack.com/services/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
       template: >
         Repository: *{{repo.name}}*. Status: *Running*. Author: *{{build.author}}*. Build: *#{{build.number}}*. Branch: *{{build.branch}}*. Event: *{{build.event}}*. Logs: {{build.link}}
 
@@ -56,8 +55,7 @@ steps:
   - name: build_status_notification
     image: plugins/slack
     settings:
-      webhook: https://hooks.slack.com/services/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
-      channel: project-snipsnap
+      webhook: https://hooks.slack.com/services/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
       template: >
         {{#success build.status}}
         Repository: *{{repo.name}}*. Status: *Completed*. Author: *{{build.author}}*. Build: *#{{build.number}}*. Branch: *{{build.branch}}*. Event: *{{build.event}}*. Logs: {{build.link}}

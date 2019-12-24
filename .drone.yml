@@ -35,6 +35,26 @@ steps:
     when:
       branch: master
       event: push
+
+  - name: db_migrate
+    image: node:12.14.0-alpine3.11
+    commands:
+      - npm install
+      - npm run db:migrate
+    environment:
+      POSTGRESQL_PORT: 5432
+      POSTGRESQL_USERNAME:
+        from_secret: db_username_prod
+      POSTGRESQL_DB:
+        from_secret: db_name_prod
+      POSTGRESQL_PASSWORD:
+        from_secret: db_pass_prod
+      POSTGRESQL_HOST:
+        from_secret: db_host_prod
+    when:
+      event: push
+      branch: master
+
   - name: deploy
     image: peloton/drone-k8s-deployment
     settings:

@@ -1,4 +1,6 @@
-require('dotenv-safe').config();
+const dotEnv = require('dotenv-safe').config();
+
+if (!process.env.CI) dotEnv.config();
 
 module.exports = {
   development: {

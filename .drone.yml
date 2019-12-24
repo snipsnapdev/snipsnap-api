@@ -5,65 +5,63 @@ steps:
   - name: initial_notification
     image: plugins/slack
     settings:
-      webhook: https://hooks.slack.com/services/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
+      webhook: https://hooks.slack.com/services/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
       template: >
         Repository: 555
 
-  - name: tests
-    image: node:12.14.0-alpine3.11
-    environment:
-      POSTGRESQL_HOST: database
-      POSTGRESQL_DB: snipsnap-test
-      POSTGRESQL_USERNAME: postgres
-      NODE_ENV: test
-    commands:
-      - npm install
-      - npm run lint
-      - npm run db:create
-      - npm run db:migrate
-      - npm run test
-
-  - name: build
-    image: plugins/docker
-    settings:
-      repo: registry.pixelpoint.io/snipsnap-api-prod
-      registry: registry.pixelpoint.io
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      branch: master
-      event: push
-
-  - name: deploy
-    image: peloton/drone-k8s-deployment
-    settings:
-      insecure: false
-      deployment_names: snipsnap-api-prod
-      container_names: snipsnap-api-prod
-      namespaces: snipsnap-prod
-      docker_image: registry.pixelpoint.io/snipsnap-api:latest
-      date_label: deployment.drone.io/date-deployed
-      url:
-        from_secret: kubernetes_url
-      token:
-        from_secret: kubernetes_token
-    when:
-      branch: master
-      event: push
-  - name: build_status_notification
-    image: plugins/slack
-    settings:
-      webhook: https://hooks.slack.com/services/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
-      template: >
-        {{#success build.status}}
-        666
-        {{else}}
-        777
-        {{/success}}
-    when:
-      status: [success, failure]
+  # - name: tests
+  #   image: node:12.14.0-alpine3.11
+  #   environment:
+  #     POSTGRESQL_HOST: database
+  #     POSTGRESQL_DB: snipsnap-test
+  #     POSTGRESQL_USERNAME: postgres
+  #     NODE_ENV: test
+  #   commands:
+  #     - npm install
+  #     - npm run lint
+  #     - npm run db:create
+  #     - npm run db:migrate
+  #     - npm run test
+  # - name: build
+  #   image: plugins/docker
+  #   settings:
+  #     repo: registry.pixelpoint.io/snipsnap-api-prod
+  #     registry: registry.pixelpoint.io
+  #     username:
+  #       from_secret: docker_username
+  #     password:
+  #       from_secret: docker_password
+  #   when:
+  #     branch: master
+  #     event: push
+  # - name: deploy
+  #   image: peloton/drone-k8s-deployment
+  #   settings:
+  #     insecure: false
+  #     deployment_names: snipsnap-api-prod
+  #     container_names: snipsnap-api-prod
+  #     namespaces: snipsnap-prod
+  #     docker_image: registry.pixelpoint.io/snipsnap-api:latest
+  #     date_label: deployment.drone.io/date-deployed
+  #     url:
+  #       from_secret: kubernetes_url
+  #     token:
+  #       from_secret: kubernetes_token
+  #   when:
+  #     branch: master
+  #     event: push
+  # - name: build_status_notification
+  #   image: plugins/slack
+  #   settings:
+  #     webhook: https://hooks.slack.com/services/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
+  #     template: >
+  #       {{#success build.status}}
+  #       666
+  #       {{else}}
+  #       777
+  #       {{/success}}
+  #   when:
+  #     status: [success, failure]
 services:
   - name: database
     image: postgres:12.1

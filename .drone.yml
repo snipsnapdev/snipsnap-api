@@ -68,6 +68,8 @@ steps:
         from_secret: kubernetes_url
       token:
         from_secret: kubernetes_token
+      build_args:
+        - NODE_ENV=production
     when:
       branch: master
       event: push

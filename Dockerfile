@@ -1,6 +1,10 @@
 # Check out https://hub.docker.com/_/node to select a new base image
 FROM node:12.14.0-alpine3.11
 
+# Set NODE_ENV to prevent installation of dev dependencies in production
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
+
 # Set to a non-root built-in user `node`
 USER node
 

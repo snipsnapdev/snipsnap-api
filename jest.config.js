@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
@@ -24,7 +25,7 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -50,7 +51,6 @@ module.exports = {
 
   // Force coverage collection from ignored files using an array of glob patterns
   // forceCoverageMatch: [],
-
   // A path to a module which exports an async function that is triggered once before all test suites
   // globalSetup: null,
 
@@ -60,7 +60,8 @@ module.exports = {
   // A set of global variables that need to be available in all test environments
   // globals: {},
 
-  // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
+  // The maximum amount of workers used to run your tests.
+  // Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
@@ -132,7 +133,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: 'node',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

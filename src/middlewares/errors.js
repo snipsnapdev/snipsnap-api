@@ -10,4 +10,5 @@ module.exports = (error, req, res, next) => {
       res.status(500).send({ errors: [{ name: error.name, message: error.message }] });
       break;
   }
+  next();
 };

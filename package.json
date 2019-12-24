@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec 'node -r dotenv-safe/config' --inspect=0.0.0.0 src/index.js",
     "start:prod": "node src/index.js",
-    "lint": "eslint",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
     "db:create": "sequelize-cli db:create",

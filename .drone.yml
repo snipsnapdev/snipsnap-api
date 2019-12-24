@@ -19,16 +19,29 @@ steps:
   - name: build
     image: plugins/docker
     settings:
-      repo: registry.pixelpoint.io/snipsnap-api
+      repo: registry.pixelpoint.io/snipsnap-api-prod
       registry: registry.pixelpoint.io
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
+
     # when:
     #   branch: master
     #   event: push
-
+  - name: deploy
+    image: peloton/drone-k8s-deployment
+    settings:
+      insecure: false
+      deployment_names: snipsnap-api-prod
+      container_names: snipsnap-api-prod
+      namespaces: snipsnap-prod
+      docker_image: registry.pixelpoint.io/snipsnap-api:latest
+      date_label: deployment.drone.io/date-deployed
+      url:
+        from_secret: kubernetes_url
+      token:
+        from_secret: kubernetes_token
 services:
   - name: database
     image: postgres:12.1

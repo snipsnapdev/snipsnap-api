@@ -2,19 +2,27 @@ kind: pipeline
 name: default
 
 steps:
-  # - name: tests
-  #   image: node:12.14.0-alpine3.11
-  #   environment:
-  #     POSTGRESQL_HOST: database
-  #     POSTGRESQL_DB: snipsnap-test
-  #     POSTGRESQL_USERNAME: postgres
-  #     NODE_ENV: test
-  #   commands:
-  #     - npm install
-  #     - npm run lint
-  #     - npm run db:create
-  #     - npm run db:migrate
-  #     - npm run test
+  - name: initial_notification
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: project-snipsnap
+      template: >
+        Repository: *{{repo.name}}*. Status: *Running*. Author: *{{build.author}}*. Build: *#{{build.number}}*. Branch: *{{build.branch}}*. Event: *{{build.event}}*. Logs: {{build.link}}
+
+  - name: tests
+    image: node:12.14.0-alpine3.11
+    environment:
+      POSTGRESQL_HOST: database
+      POSTGRESQL_DB: snipsnap-test
+      POSTGRESQL_USERNAME: postgres
+      NODE_ENV: test
+    commands:
+      - npm install
+      - npm run lint
+      - npm run db:create
+      - npm run db:migrate
+      - npm run test
 
   - name: build
     image: plugins/docker
@@ -25,10 +33,10 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+    when:
+      branch: master
+      event: push
 
-    # when:
-    #   branch: master
-    #   event: push
   - name: deploy
     image: peloton/drone-k8s-deployment
     settings:
@@ -42,6 +50,22 @@ steps:
         from_secret: kubernetes_url
       token:
         from_secret: kubernetes_token
+    when:
+      branch: master
+      event: push
+  - name: build_status_notification
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: project-snipsnap
+      template: >
+        {{#success build.status}}
+        Repository: *{{repo.name}}*. Status: *Completed*. Author: *{{build.author}}*. Build: *#{{build.number}}*. Branch: *{{build.branch}}*. Event: *{{build.event}}*. Logs: {{build.link}}
+        {{else}}
+        Repository: *{{repo.name}}*. Status: *Failed*. Author: *{{build.author}}*. Build: *#{{build.number}}*. Branch: *{{build.branch}}*. Event: *{{build.event}}*. Logs: {{build.link}}
+        {{/success}}
+    when:
+      status: [success, failure]
 services:
   - name: database
     image: postgres:12.1

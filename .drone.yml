@@ -1,0 +1,16 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: tests
+    image: node:12.14.0-alpine3.11
+    commands:
+      - npm install
+      - npm run lint
+      - npm run db:create
+      - npm run db:migrate
+      - npm run test
+
+services:
+  - name: database
+    image: postgres:12.1

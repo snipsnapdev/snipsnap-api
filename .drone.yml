@@ -5,7 +5,8 @@ steps:
   - name: initial_notification
     image: plugins/slack
     settings:
-      webhook: https://hooks.slack.com/services/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
+      webhook:
+        from_secret: slack_webhook
       template: >
         Repository: 555
 

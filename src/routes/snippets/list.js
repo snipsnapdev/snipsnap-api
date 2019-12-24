@@ -28,6 +28,12 @@ const paramsSchema = {
       },
     },
   },
+  ide: {
+    isIn: {
+      options: [['vscode']],
+      errorMessage: 'Provided IDE is not supported',
+    },
+  },
 };
 
 module.exports = [...validateParamsWithSchema(paramsSchema), async (req, res) => {

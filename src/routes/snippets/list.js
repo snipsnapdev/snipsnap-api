@@ -1,5 +1,5 @@
-
 const Sequelize = require('sequelize');
+const createSnippetsOutput = require('../../helpers/createSnippetsOutput');
 
 const { Op } = Sequelize;
 const { Snippet } = require('../../models');
@@ -47,7 +47,7 @@ module.exports = [...validateParamsWithSchema(paramsSchema), async (req, res, ne
         language,
       },
     });
-    res.send(snippets);
+    res.send(createSnippetsOutput(snippets));
   } catch (err) {
     next(err);
   }

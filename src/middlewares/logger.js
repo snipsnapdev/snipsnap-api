@@ -1,8 +1,12 @@
+const { NODE_ENV } = process.env;
+
+const prettierOptions = NODE_ENV === 'development' ? {
+  translateTime: true,
+} : false;
+
 const logger = require('pino')({
-  enabled: process.env.NODE_ENV !== 'test',
-  prettyPrint: {
-    translateTime: true,
-  },
+  enabled: NODE_ENV !== 'test',
+  prettyPrint: prettierOptions,
 });
 
 const expressLogger = require('express-pino-logger')(

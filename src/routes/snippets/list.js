@@ -36,9 +36,8 @@ const paramsSchema = {
   },
 };
 
-module.exports = [
-  ...validateParamsWithSchema(paramsSchema),
-  async (req, res) => {
+module.exports = [...validateParamsWithSchema(paramsSchema), async (req, res, next) => {
+  try {
     const { packages, language } = req.body;
     const snippets = await Snippet.findAll({
       where: {
@@ -49,5 +48,7 @@ module.exports = [
       },
     });
     res.send(createSnippetsOutput(snippets));
-  },
-];
+  } catch (err) {
+    next(err);
+  }
+}];

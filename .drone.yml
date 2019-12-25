@@ -32,6 +32,8 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+      build_args:
+        - NODE_ENV=production
     when:
       branch: master
       event: push
@@ -68,8 +70,6 @@ steps:
         from_secret: kubernetes_url
       token:
         from_secret: kubernetes_token
-      build_args:
-        - NODE_ENV=production
     when:
       branch: master
       event: push

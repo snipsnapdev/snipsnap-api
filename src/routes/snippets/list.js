@@ -36,15 +36,19 @@ const paramsSchema = {
   },
 };
 
-module.exports = [...validateParamsWithSchema(paramsSchema), async (req, res) => {
-  const { packages, language } = req.body;
-  const snippets = await Snippet.findAll({
-    where: {
-      name: {
-        [Op.in]: packages,
+module.exports = [...validateParamsWithSchema(paramsSchema), async (req, res, next) => {
+  try {
+    const { packages, language } = req.body;
+    const snippets = await Snippet.findAll({
+      where: {
+        name: {
+          [Op.in]: packages,
+        },
+        language,
       },
-      language,
-    },
-  });
-  res.send(snippets);
+    });
+    res.send(snippets);
+  } catch (err) {
+    next(err);
+  }
 }];

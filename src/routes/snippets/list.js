@@ -9,14 +9,13 @@ const paramsSchema = {
   language: {
     isIn: {
       options: [['javascript', 'ruby', 'python', 'go']],
-      errorMessage: 'Provided language is not supported'
-    }
+      errorMessage: 'Provided language is not supported',
+    },
   },
   packages: {
     custom: {
       options(value, { req }) {
         const { packages } = req.body;
-        console.log(`\n\n\n${packages}\n\n\n`);
         if (!Array.isArray(packages)) {
           this.message = 'Packages should be an array';
           return false;
@@ -26,15 +25,15 @@ const paramsSchema = {
           return false;
         }
         return true;
-      }
-    }
+      },
+    },
   },
   ide: {
     isIn: {
       options: [['vscode']],
-      errorMessage: 'Provided IDE is not supported'
-    }
-  }
+      errorMessage: 'Provided IDE is not supported',
+    },
+  },
 };
 
 module.exports = [
@@ -44,11 +43,11 @@ module.exports = [
     const snippets = await Snippet.findAll({
       where: {
         name: {
-          [Op.in]: packages
+          [Op.in]: packages,
         },
-        language
-      }
+        language,
+      },
     });
     res.send(createSnippetsOutput(snippets));
-  }
+  },
 ];

@@ -1,4 +1,4 @@
-// takes the db query result in JSON and formats it as a proper
+// takes the db snippets query result in JSON and formats it as a proper
 // snipsnap.code-snippets file
 // createSnippetsOutput(queryResult: Array = []) -> JSON
 const createSnippetsOuput = (queryResult = []) => JSON.stringify(

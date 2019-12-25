@@ -1,8 +1,6 @@
-const reactSampleSnippets = require('react.json');
-const nodeSampleSnippets = require('node.json');
-const gatsbySampleSnippets = require('gatsby.json');
-
-console.log(d);
+const reactSampleSnippets = require('./react.json');
+const nodeSampleSnippets = require('./node.json');
+const gatsbySampleSnippets = require('./gatsby.json');
 
 module.exports = {
   up: queryInterface =>
@@ -18,15 +16,15 @@ module.exports = {
         },
         {
           name: 'react',
-          language: 'javascriptreact',
-          snippets: reactSampleSnippets,
+          language: 'javascript',
+          snippets: JSON.stringify(reactSampleSnippets),
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           name: 'node',
           language: 'javascript',
-          snippets: nodeSampleSnippets,
+          snippets: JSON.stringify(nodeSampleSnippets),
           createdAt: new Date(),
           updatedAt: new Date()
         }

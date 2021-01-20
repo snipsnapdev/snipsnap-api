@@ -1,6 +1,12 @@
+/* eslint-disable global-require */
 const supertest = require('supertest');
 const app = require('../../src/app');
 require('../_helpers/setup')();
+
+jest.mock('../../src/models/snippet', () => () => new (require('sequelize-mock'))().define('Snippet', {
+  name: 'gatsby_snippet1',
+  snippets: { 'snippet-data': 1 },
+}));
 
 const request = supertest(app);
 
@@ -45,7 +51,9 @@ describe('GET /snippets', () => {
   it('request should pass with valid params', async (done) => {
     const response = await request.get('/snippets')
       .send({ language: 'javascript', packages: ['gatsby'], ide: 'vscode' });
+
     expect(response.status).toBe(200);
+    expect(response.body['snippet-data']).toBe(1);
     done();
   });
 });

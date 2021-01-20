@@ -3,12 +3,10 @@ const supertest = require('supertest');
 const app = require('../../src/app');
 require('../_helpers/setup')();
 
-jest.mock('../../src/models/snippet', () => () => {
-  return new (require('sequelize-mock'))().define('Snippet', {
-    name: 'gatsby_snippet1',
-    snippets: { 'snippet-data': 1 },
-  });
-});
+jest.mock('../../src/models/snippet', () => () => new (require('sequelize-mock'))().define('Snippet', {
+  name: 'gatsby_snippet1',
+  snippets: { 'snippet-data': 1 },
+}));
 
 const request = supertest(app);
 

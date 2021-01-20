@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    image: postgres:12.1
+    image: postgres:12.5-alpine
     ports:
       - 8432:5432
     volumes:
@@ -13,6 +13,9 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    volumes:
+      - .env:/home/node/app/.env
+      - .env.example:/home/node/app/.env.example
     depends_on:
       - db
     command: npm start
